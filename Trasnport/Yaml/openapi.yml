@@ -9,6 +9,41 @@ tags:
 - name: Список ближайших станций
   description: Список ближайших станций
 paths:
+  /v3.0/copyright/:
+    get:
+      tags:
+        - getCopyright
+      summary: Текст копирайта Яндекс.Расписаний
+      operationId: getCopyright
+      parameters:
+        - name: apikey
+          in: query
+          description: API key
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          description: Язык (например, ru_RU)
+          required: false
+          schema:
+            type: string
+        - name: format
+          in: query
+          description: Формат ответа (json или plain)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CopyrightText'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Copyright'
   /v3.0/nearest_stations/:
     get:
       tags:
@@ -422,6 +457,9 @@ paths:
         "200":
           description: Успешный ответ
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllStationsResponse'
             text/html; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/AllStationsResponse'
@@ -902,3 +940,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Station'
+    CopyrightText:
+      type: string
+      description: Копирайт в виде обычного текста
+    Copyright:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Копирайт как поле text

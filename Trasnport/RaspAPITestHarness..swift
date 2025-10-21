@@ -158,6 +158,16 @@ enum RaspAPITester {
             log.append("❌ stations_list RAW: \(error)")
         }
 
+        // 9) copyright
+        do {
+            let service = CopyrightService()
+            let text = try await service.getCopyright(apikey: apikey, lang: "ru_RU", format: nil)
+            let preview = text.isEmpty ? "<empty>" : String(text.prefix(80)) + (text.count > 80 ? "…" : "")
+            log.append("✅ copyright: \(preview)")
+        } catch {
+            log.append("❌ copyright: \(error)")
+        }
+
         return log.joined(separator: "\n")
     }
 }
