@@ -1,6 +1,7 @@
 import OpenAPIURLSession
 import OpenAPIRuntime
 import Foundation
+
 protocol CarrierInfoServiceProtocol {
     func getCarrierInfo(
         apikey: String,
