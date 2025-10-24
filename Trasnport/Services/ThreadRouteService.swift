@@ -1,6 +1,7 @@
 import OpenAPIURLSession
 import OpenAPIRuntime
 import Foundation
+
 protocol ThreadRouteServiceProtocol {
     func getRouteStations(
         apikey: String,
