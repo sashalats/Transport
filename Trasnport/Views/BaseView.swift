@@ -2,13 +2,14 @@ import SwiftUI
 
 struct BaseView: View {
     @StateObject private var coordinator = NavigationCoordinator()
+    @StateObject private var viewModel = MockReelsModel()
     
     var body: some View {
         ZStack {
             Color.nightOrDay.ignoresSafeArea()
             NavigationStack(path: $coordinator.path) {
                 TabView {
-                    MainView(coordinator: coordinator)
+                    MainView(coordinator: coordinator, viewModel: viewModel)
                         .tabItem {
                             Image(.scheduleTabItem)
                                 .renderingMode(.template)

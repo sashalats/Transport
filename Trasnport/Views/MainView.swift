@@ -5,6 +5,12 @@ struct MainView: View {
     @State private var showAgreement = false
     @ObservedObject var coordinator: NavigationCoordinator
     
+    @ObservedObject var viewModel: MockReelsModel
+    @State private var showStories = false
+    @State private var selectedStoryIndex = 0
+    @State private var viewedStories: Set<Int> = []
+    @State private var pendingStoryIndex: Int?
+    
     func swapDirection() {
         (coordinator.selectedCityFrom, coordinator.selectedCityTo) =
             (coordinator.selectedCityTo, coordinator.selectedCityFrom)
@@ -16,6 +22,38 @@ struct MainView: View {
         ZStack {
             Color("nightOrDayColor").ignoresSafeArea()
             VStack (spacing: 44){
+                ScrollView (.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: 12) {
+                        ForEach(viewModel.stories.indices.sorted { lhs, rhs in
+                            let isViewedL = viewedStories.contains(lhs)
+                            let isViewedR = viewedStories.contains(rhs)
+                            if isViewedL == isViewedR { return lhs < rhs }
+                            return !isViewedL && isViewedR
+                        }, id: \.self) { index in
+                            Button {
+                                selectedStoryIndex = index
+                                showStories = true
+                                viewedStories.insert(index)
+                            } label: {
+                                StoryCell(
+                                    story: viewModel.stories[index],
+                                    isViewed: viewedStories.contains(index)
+                                )
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                }
+                .frame(height: 140)
+                .fullScreenCover(isPresented: $showStories) {
+                    StoriesScreenView(
+                        onViewed: { indices in
+                            viewedStories.formUnion(indices)
+                        }, stories: viewModel.stories,
+                        initialIndex: selectedStoryIndex
+                    )
+                    .preferredColorScheme(.dark)
+                }
                 VStack(spacing: 16) {
                     ZStack {
                         Color("blueUniversal")
