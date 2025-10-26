@@ -19,7 +19,6 @@ struct CarrierInfoView: View {
                         .font(.custom("SFPro-Bold", size: 24))
                         .foregroundStyle(Color("dayOrNightColor"))
                     VStack(alignment: .leading, spacing: 0) {
-                        // email
                         Text("E-mail")
                             .font(.custom("SFPro-Regular", size: 16))
                             .foregroundStyle(Color("dayOrNightColor"))
@@ -30,7 +29,6 @@ struct CarrierInfoView: View {
                                 .foregroundColor(.blue)
                                 .padding(.bottom, 12)
                         }
-                        // телефон
                         Text("Телефон")
                             .font(.custom("SFPro-Regular", size: 16))
                             .foregroundStyle(Color("dayOrNightColor"))
